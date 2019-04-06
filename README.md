@@ -9,4 +9,4 @@ To make the jupyter notebook work:
 2) If necessary, unzip the downloaded file.
 3) Without modifying the directory name ("MillionSongSubset") or contents of the downloaded data, place the directory in the "./data/MSD" directory in the root. 
 
-4) pip install pyechonest and follow instructions https://github.com/echonest/pyechonest
+4) Cannot get pyechonest. just download the subset here https://labrosa.ee.columbia.edu/millionsong/tasteprofile and put into ./data directory.
