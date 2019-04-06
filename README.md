@@ -10,3 +10,11 @@ To make the jupyter notebook work:
 3) Without modifying the directory name ("MillionSongSubset") or contents of the downloaded data, place the directory in the "./data/MSD" directory in the root. 
 
 4) Cannot get pyechonest. just download the subset here https://labrosa.ee.columbia.edu/millionsong/tasteprofile and put into ./data directory.
+You can follow the following code to reduce the data set and store as csv:
+```python
+def reduce_taste_subset(path='./data/FullEchoNestTasteProfileSubset.txt', 
+                        to_path='./data/SmallerEchoNestTasteProfileSubset.csv', downsample=0.1):
+    data = pd.read_csv(path, sep="\t", header=None)
+    data.columns = ['user', 'song', 'play_count']
+    data.sample(int(data.shape[0] * downsample)).to_csv(to_path)
+```
