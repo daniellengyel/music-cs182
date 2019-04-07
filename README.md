@@ -1,4 +1,4 @@
-# music-cs182 (Python 3.6)
+# music-cs182 (Python 2.6)
 
 # Set Up
 
