@@ -19,3 +19,5 @@ def reduce_taste_subset(path='./data/FullEchoNestTasteProfileSubset.txt',
     data.astype({'user': np.str, 'song': np.str, 'play_count': np.int32})
     data.sample(frac=downsample).to_csv(to_path, index=False)
 ```
+## Collaborative Filtering
+Take a look at this paper: http://dx.doi.org/10.1109/ICDM.2008.22
