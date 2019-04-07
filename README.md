@@ -21,3 +21,5 @@ def reduce_taste_subset(path='./data/FullEchoNestTasteProfileSubset.txt',
 ```
 ## Collaborative Filtering
 Take a look at this paper: http://dx.doi.org/10.1109/ICDM.2008.22
+
+To install spark: https://blog.sicara.com/get-started-pyspark-jupyter-guide-tutorial-ae2fe84f594f
