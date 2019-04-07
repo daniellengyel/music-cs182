@@ -16,5 +16,6 @@ def reduce_taste_subset(path='./data/FullEchoNestTasteProfileSubset.txt',
                         to_path='./data/SmallerEchoNestTasteProfileSubset.csv', downsample=0.1):
     data = pd.read_csv(path, sep="\t", header=None)
     data.columns = ['user', 'song', 'play_count']
-    data.sample(int(data.shape[0] * downsample)).to_csv(to_path)
+    data.astype({'user': np.str, 'song': np.str, 'play_count': np.int32})
+    data.sample(frac=downsample).to_csv(to_path, index=False)
 ```
