@@ -1,4 +1,4 @@
-# music-cs182 (Python 3.6)
+# music-cs182 (Python 2.6)
 
 # Set Up
 
@@ -23,3 +23,5 @@ def reduce_taste_subset(path='./data/FullEchoNestTasteProfileSubset.txt',
 Take a look at this paper: http://dx.doi.org/10.1109/ICDM.2008.22
 
 To install spark: https://blog.sicara.com/get-started-pyspark-jupyter-guide-tutorial-ae2fe84f594f
+
+If there are java errors, usually just downloading the latest Java SDK helps.
