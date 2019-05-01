@@ -1,3 +1,4 @@
 MillionSongSubset/
 .venv/
 data/
+.ipynb_checkpoints/
