@@ -1,3 +1,12 @@
 MillionSongSubset/
 .venv/
 data/
+.ipynb_checkpoints/
+CppSrc/
+JavaSrc/
+MatlabSrc/
+NameNormalizer/
+PythonSrc/
+Tasks_Demos/
+track_ids.txt
+mfcc.csv
