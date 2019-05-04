@@ -27,6 +27,14 @@ def matching():
                 words = line.strip()[1:].split(',')
                 break
 
+    mapping = dict()
+    with open("../data/Word2Vec/reverse_mapping.txt", 'r') as file:
+        for pair in file.readlines():
+            pair = pair.replace('\xad', '').replace('\n', '')
+            key, value = pair.split("<SEP>")
+            if key != value:
+                mapping[str(key)] = str(value)
+
     print("Loading Model...")
     model = KeyedVectors.load_word2vec_format('../data/Word2Vec/GoogleNews-vectors-negative300.bin', binary=True)
 
@@ -37,6 +45,10 @@ def matching():
     total = len(words)
     for i, word in enumerate(words):
         if word in model.vocab:
+            vector = model[word]
+            w2v[word] = vector
+        elif word in mapping and mapping[word] in model.vocab:
+            word = mapping[word]
             vector = model[word]
             w2v[word] = vector
         else:
@@ -52,16 +64,22 @@ def matching():
     print("Total: [{}], Match: [{}], Non-Match: [{}]".format(len(words), len(w2v), len(non_match)))
 
 
-def check():
-    print("Matchings: ")
-    with open("../data/Word2Vec/matching.pickle", 'rb') as file:
-        w2v = pickle.load(file)
-        print(w2v.items()[:10])
+def check(non_match_only=False):
+    w2v, non_match = None, None
+    if not non_match_only:
+        print("Matchings: ")
+        with open("../data/Word2Vec/matching.pickle", 'rb') as file:
+            w2v = pickle.load(file)
+            w2v = list(w2v.items())
+            print(w2v[0])
+            print(w2v[0][1].shape)
 
     print("\nNon-Matching: ")
     with open("../data/Word2Vec/non_match.pickle", 'rb') as file:
         non_match = pickle.load(file)
-        print(non_match[:10])
+        print(non_match)
+
+    return w2v, non_match
 
 
 
@@ -69,5 +87,5 @@ def check():
 if __name__=='__main__':
     train_file = "../data/mxm/mxm_dataset_train.txt"
 
-    matching()
-    # check()
+    # matching()
+    check()
