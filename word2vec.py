@@ -1,6 +1,7 @@
 import gensim
 from gensim.models.keyedvectors import KeyedVectors
 import pickle
+import sys
 
 
 def report_progress(progress, total, lbar_prefix = '', rbar_prefix=''):
