@@ -10,3 +10,4 @@ PythonSrc/
 Tasks_Demos/
 track_ids.txt
 mfcc.csv
+params/
