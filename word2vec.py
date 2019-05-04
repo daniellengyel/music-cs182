@@ -3,7 +3,21 @@ from gensim.models.keyedvectors import KeyedVectors
 import pickle
 
 
+def report_progress(progress, total, lbar_prefix = '', rbar_prefix=''):
+    """
+    Create progress bar for large task
+    """
+    percent = round(progress / float(total) * 100, 2)
+    buf = "{0}|{1}| {2}{3}/{4} {5}%".format(lbar_prefix, ('#' * round(percent)).ljust(100, '-'),
+        rbar_prefix, progress, total, percent)
+    sys.stdout.write(buf)
+    sys.stdout.write('\r')
+    sys.stdout.flush()
+
+
 def matching():
+
+    print("Loading Words...")
     words = None
     with open(train_file, 'r') as file:
         lines = file.readlines()
@@ -12,17 +26,21 @@ def matching():
                 words = line.strip()[1:].split(',')
                 break
 
-    # Load Google's pre-trained Word2Vec model.
+    print("Loading Model...")
     model = KeyedVectors.load_word2vec_format('../data/Word2Vec/GoogleNews-vectors-negative300.bin', binary=True)
 
     w2v = dict()
     non_match = list()
-    for word in words:
+
+    print("Embedding Matching...")
+    total = len(words)
+    for i, word in enumerate(words):
         if word in model.vocab:
-            vector = gensim_model[word]
+            vector = model[word]
             w2v[word] = vector
         else:
             non_match.append(word)
+        report_progress(i, total)
 
     with open("../data/Word2Vec/matching.pickle", 'wb') as file:
         pickle.dump(w2v, file)
@@ -49,6 +67,6 @@ def check():
 
 if __name__=='__main__':
     train_file = "../data/mxm/mxm_dataset_train.txt"
-    
+
     matching()
     # check()
