@@ -19,7 +19,7 @@ def print_data():
     """
     Print the data (top lines) in the .txt file
     """
-    with open("../data/mxm/mxm_dataset_train.txt", 'r') as file:
+    with open("./data/mxm/mxm_dataset_train.txt", 'r') as file:
         for i, line in enumerate(file.readlines()):
             print(line)
             if i >= 50:
@@ -42,7 +42,7 @@ def load_db():
 
 
 if __name__=='__main__':
-    train_file = "../data/mxm/mxm_dataset_train.txt"
+    train_file = "./data/mxm/mxm_dataset_train.txt"
 
     # The dictionary that stores BOW ["MSD_ID": np.array(BagOfWords)]
     bow = dict()
