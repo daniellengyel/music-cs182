@@ -3,6 +3,7 @@ from gensim.models.keyedvectors import KeyedVectors
 import pickle
 import sys
 import numpy as np
+from sklearn.preprocessing import normalize
 
 
 def calc():
@@ -14,6 +15,11 @@ def calc():
         song_ids = list(bow.keys())
         bows = list(bow.values())
         bows = np.matrix(bows)
+        with np.errstate(divide='ignore', invalid='ignore'):
+            bows = np.true_divide(1, bows)
+            bows[bows == np.inf] = 0
+            bows = np.nan_to_num(bows)
+        bows = normalize(bows, axis=1, norm='l1')
 
     print("Loading Model...")
     model = KeyedVectors.load_word2vec_format('../data/Word2Vec/GoogleNews-vectors-negative300.bin', binary=True)
@@ -37,5 +43,5 @@ def check():
         print(result[:10, :])
 
 if __name__=='__main__':
-    # calc()
-    check()
+    calc()
+    # heck()
