@@ -15,33 +15,33 @@ def calc():
         song_ids = list(bow.keys())
         bows = list(bow.values())
         bows = np.matrix(bows)
-        with np.errstate(divide='ignore', invalid='ignore'):
-            bows = np.true_divide(1, bows)
-            bows[bows == np.inf] = 0
-            bows = np.nan_to_num(bows)
-        bows = normalize(bows, axis=1, norm='l1')
 
-    print("Loading Model...")
-    model = KeyedVectors.load_word2vec_format('../data/Word2Vec/GoogleNews-vectors-negative300.bin', binary=True)
+    with np.errstate(divide='ignore', invalid='ignore'):
+        bows = np.true_divide(1, bows)
+        bows[bows == np.inf] = 0
+        bows = np.nan_to_num(bows)
+    bows = normalize(bows, axis=1, norm='l1')
+    print(bows.shape)
 
     embedding = list()
     print("Loading Embedding...")
     with open("../data/Word2Vec/embedding.pickle", 'rb') as file:
         embedding = pickle.load(file)
 
+    print(embedding.shape)
     print("Calculating Results...")
     result = np.matmul(bows, embedding)
 
     print("Saving Results...")
-    with open("../data/Word2Vec/embedding.pickle", 'wb') as file:
+    with open("../data/Word2Vec/weighted.pickle", 'wb') as file:
         pickle.dump(result, file)
 
 def check():
-    with open("../data/Word2Vec/embedding.pickle", 'rb') as file:
+    with open("../data/Word2Vec/weighted.pickle", 'rb') as file:
         result = pickle.load(file)
         print(result.shape)
         print(result[:10, :])
 
 if __name__=='__main__':
     calc()
-    # heck()
+    check()
