@@ -13,3 +13,4 @@ mfcc.csv
 params/
 .venv3/
 checkpoint/
+.idea/
