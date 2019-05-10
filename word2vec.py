@@ -2,6 +2,7 @@ import gensim
 from gensim.models.keyedvectors import KeyedVectors
 import pickle
 import sys
+import numpy as np
 
 
 def report_progress(progress, total, lbar_prefix = '', rbar_prefix=''):
@@ -42,24 +43,33 @@ def matching():
     non_match = list()
 
     print("Embedding Matching...")
+    embedding = list()
     total = len(words)
     for i, word in enumerate(words):
         if word in model.vocab:
             vector = model[word]
             w2v[word] = vector
+            embedding.append(vector)
         elif word in mapping and mapping[word] in model.vocab:
             word = mapping[word]
             vector = model[word]
             w2v[word] = vector
+            embedding.append(vector)
         else:
             non_match.append(word)
+            embedding.append(np.zeros([300,]))
         report_progress(i, total)
+    embedding = np.matrix(embedding)
 
     with open("../data/Word2Vec/matching.pickle", 'wb') as file:
         pickle.dump(w2v, file)
 
     with open("../data/Word2Vec/non_match.pickle", 'wb') as file:
         pickle.dump(non_match, file)
+
+    with open("../data/Word2Vec/embedding.pickle", 'wb') as file:
+        pickle.dump(embedding, file)
+
 
     print("Total: [{}], Match: [{}], Non-Match: [{}]".format(len(words), len(w2v), len(non_match)))
 
@@ -79,7 +89,14 @@ def check(non_match_only=False):
         non_match = pickle.load(file)
         print(non_match)
 
-    return w2v, non_match
+    print("\nEmbedding: ")
+    with open("../data/Word2Vec/embedding.pickle", 'rb') as file:
+        embedding = pickle.load(file)
+        print(embedding[:10, :])
+        print(embedding.shape)
+
+
+    return w2v, non_match, embedding
 
 
 
@@ -87,5 +104,5 @@ def check(non_match_only=False):
 if __name__=='__main__':
     train_file = "../data/mxm/mxm_dataset_train.txt"
 
-    # matching()
+    matching()
     check()
