@@ -26,26 +26,12 @@ def print_data():
                 break
 
 
-def load_db():
-    """
-    Load data from the .db (sqlite3).
-    This task does not need the .db, here is just a reference.
-    """
-    conn = sqlite3.connect('mxm.db')
-    cur = conn.cursor()
-    command = "SELECT * FROM lyrics"
-    cur.execute(command)
-    data = cur.fetchall()
-    for i, line in enumerate(data):
-        MSD_ID, MXM_ID, word, count, is_test = line
-        # TODO
-
-
 if __name__=='__main__':
-    train_file = "./data/mxm/mxm_dataset_train.txt"
+    train_file = "../../data/mxm/mxm_dataset_train.txt"
 
     # The dictionary that stores BOW ["MSD_ID": np.array(BagOfWords)]
     bow = dict()
+    tracks = dict()
 
     # Get the blank vector for each bag of words vector
     # For coding convenience, we do it seperately from loading data
@@ -63,6 +49,7 @@ if __name__=='__main__':
         lines = file.readlines()
         total = len(lines)
         # Use enumerate for getting both index and value for the progress bar
+        count = 0
         for i, line in enumerate(lines):
             # Create vector copy, make sure original blank vector not changed
             vec = vector.copy()
@@ -81,14 +68,19 @@ if __name__=='__main__':
                 # Use word_id-1 due to index displacement
                 vec[int(word_id)-1] = int(cnt)
             bow[MSD_ID] = vec
+            tracks[count] = MSD_ID
             # Report Progress Bar
+            count += 1
             report_progress(i, total)
 
     # Dump the BOW dict into Pickle
-    with open('lyrics.pickle', 'wb') as file:
-        pickle.dump(bow, file)
+    # with open('lyrics.pickle', 'wb') as file:
+    #     pickle.dump(bow, file)
+
+    with open('../../data/mxm/match.pickle', 'wb') as file:
+        pickle.dump(tracks, file)
 
     # Test Loading
-    with open('lyrics.pickle', 'rb') as file:
-        bow = pickle.load(file)
-        print("BOW vectors #: {}".format(len(bow))) # 210519
+    # with open('lyrics.pickle', 'rb') as file:
+    #     bow = pickle.load(file)
+    #     print("BOW vectors #: {}".format(len(bow))) # 210519

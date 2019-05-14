@@ -43,5 +43,5 @@ def check():
         print(result[:10, :])
 
 if __name__=='__main__':
-    calc()
+    # calc()
     check()
